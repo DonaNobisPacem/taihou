@@ -23,7 +23,8 @@ defmodule Taihou.MixProject do
   defp deps do
     [
       {:plug, "~> 1.0"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:jason, "~> 1.1"}
     ]
   end
 end

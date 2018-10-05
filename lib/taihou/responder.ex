@@ -1,6 +1,6 @@
 defmodule Taihou.ResponseController do
   import Plug.Conn
-  @token "kOIDQ35D18n9STwY2WJVNJY0"
+  @token Application.get_env(:taihou, :token)
 
   def respond(conn, %{"token" => token, "command" => "/react"} = params) when token == @token do
     text = params |> Map.get("text", "") |> String.downcase()

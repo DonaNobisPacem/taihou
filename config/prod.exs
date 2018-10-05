@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :taihou, port: 443
+config :taihou, port: 80

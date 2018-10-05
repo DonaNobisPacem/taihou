@@ -1,10 +1,7 @@
-defmodule Taihou.API.Laughs do
-  @album_key "jEdfaZb"
-  @fallback "lel.exe"
-
-  def get_link do
+defmodule Taihou.API do
+  def get_link(album_key, fallback \\ "feelsbadman") do
     HTTPoison.start()
-    url = Application.get_env(:taihou, :imgur_api) <> @album_key
+    url = Application.get_env(:taihou, :imgur_api) <> album_key
     headers = [Authorization: "Client-ID #{Application.get_env(:taihou, :imgur_client_id)}"]
     response = HTTPoison.get!(url, headers)
 
@@ -14,10 +11,10 @@ defmodule Taihou.API.Laughs do
          image_list <- Map.get(data, "images", []) do
       image_list
       |> Enum.random()
-      |> Map.get("link", @fallback)
+      |> Map.get("link", fallback)
     else
       _resp ->
-        @fallback
+        fallback
     end
   end
 end

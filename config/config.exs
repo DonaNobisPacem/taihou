@@ -8,6 +8,8 @@ use Mix.Config
 # if you want to provide default values for your application for
 # 3rd-party users, it should be done in your "mix.exs" file.
 
+config :taihou, token: "kOIDQ35D18n9STwY2WJVNJY0"
+
 # You can configure your application as:
 #
 #     config :taihou, key: :value

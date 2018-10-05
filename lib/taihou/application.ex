@@ -8,7 +8,9 @@ defmodule Taihou.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      Plug.Adapters.Cowboy.child_spec(:http, Taihou.Router, [], port: 4000)
+      Plug.Adapters.Cowboy.child_spec(:http, Taihou.Router, [],
+        port: Applicaton.get_env(:taihou, :port)
+      )
 
       # Starts a worker by calling: Taihou.Worker.start_link(arg)
       # {Taihou.Worker, arg},

@@ -24,7 +24,8 @@ defmodule Taihou.MixProject do
     [
       {:plug, "~> 1.0"},
       {:cowboy, "~> 1.0"},
-      {:jason, "~> 1.1"}
+      {:jason, "~> 1.1"},
+      {:httpoison, "~> 1.0"}
     ]
   end
 end

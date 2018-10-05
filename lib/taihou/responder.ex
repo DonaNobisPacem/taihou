@@ -51,9 +51,11 @@ defmodule Taihou.ResponseController do
   @laugh_id "jEdfaZb"
   @cry ["cry", "tears"]
   @wat ["wat", "nani", "what the fuck", "nani the fuck"]
+  @wat_id "3M3FnHd"
   defp commands, do: @laugh ++ @cry ++ @wat
 
   defp fetch_url("ptsd"), do: "https://i.imgur.com/xpvHDl8.jpg"
   defp fetch_url(text) when text in @laugh, do: Taihou.API.get_link(@laugh_id)
+  defp fetch_url(text) when text in @wat, do: Taihou.API.get_link(@wat_id)
   defp fetch_url(text), do: text
 end

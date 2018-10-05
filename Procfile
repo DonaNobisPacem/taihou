@@ -1,1 +1,1 @@
-web: MIX_ENV=prod mix run --no-halt
+web: MIX_ENV=prod PORT=443 mix run --no-halt

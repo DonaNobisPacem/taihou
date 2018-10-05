@@ -22,7 +22,8 @@ defmodule Taihou.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:slack, "~> 0.15"}
+      {:plug, "~> 1.0"},
+      {:cowboy, "~> 1.0"}
     ]
   end
 end

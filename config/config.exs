@@ -9,6 +9,9 @@ use Mix.Config
 # 3rd-party users, it should be done in your "mix.exs" file.
 
 config :taihou, token: "kOIDQ35D18n9STwY2WJVNJY0"
+config :taihou, imgur_client_id: "adc7e7b1c8d38f9"
+config :taihou, imgur_client_secret: "afccde3664c18e98797b850e91c3a1d81a84c5d3"
+config :taihou, imgur_api: "https://api.imgur.com/3/album/"
 
 # You can configure your application as:
 #

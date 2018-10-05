@@ -47,15 +47,17 @@ defmodule Taihou.ResponseController do
     })
   end
 
-  @laugh ["lel", "lol", "haha", "lul"]
   @laugh_id "jEdfaZb"
-  @cry ["cry", "tears"]
-  @wat ["wat", "nani", "what the fuck", "nani the fuck"]
+  @laugh ["lel", "lol", "haha", "lul"]
   @wat_id "3M3FnHd"
-  defp commands, do: @laugh ++ @cry ++ @wat
+  @wat ["wat", "nani", "what the fuck", "nani the fuck"]
+  @feelsbad_id "lCaH4Zn"
+  @feelsbad ["feelsbad", "feelsbadman"]
+  defp commands, do: @laugh ++ @cry ++ @feelsbad
 
   defp fetch_url("ptsd"), do: "https://i.imgur.com/xpvHDl8.jpg"
   defp fetch_url(text) when text in @laugh, do: Taihou.API.get_link(@laugh_id)
   defp fetch_url(text) when text in @wat, do: Taihou.API.get_link(@wat_id)
+  defp fetch_url(text) when text in @feelsbad, do: Taihou.API.get_link(@feelsbad_id)
   defp fetch_url(text), do: text
 end

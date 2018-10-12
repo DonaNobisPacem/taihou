@@ -3,13 +3,16 @@ defmodule Taihou.ResponseController do
   @token Application.get_env(:taihou, :token)
 
   def respond(conn, %{"token" => token, "command" => "/react"} = params) when token == @token do
-    text = params |> Map.get("text", "") |> String.downcase()
+    command =
+      params
+      |> Map.get("text", "")
+      |> String.trim()
+      |> String.split()
+      |> List.first()
+      |> String.downcase()
 
     response =
-      case text do
-        "" ->
-          construct_response("brain problems")
-
+      case command do
         "commands" ->
           commands()
           |> Enum.sort()
@@ -22,8 +25,8 @@ defmodule Taihou.ResponseController do
             %{"response_type" => "ephemeral"}
           )
 
-        text ->
-          construct_response(text)
+        command ->
+          construct_response(command)
       end
 
     conn
@@ -47,17 +50,84 @@ defmodule Taihou.ResponseController do
     })
   end
 
-  @laugh_id "jEdfaZb"
-  @laugh ["lel", "lol", "haha", "lul"]
-  @wat_id "3M3FnHd"
-  @wat ["wat", "nani", "what the fuck", "nani the fuck"]
-  @feelsbad_id "lCaH4Zn"
+  @angry ["angry"]
+  @approve ["approve"]
+  @celebrate ["celebrate"]
+  @cry ["cry", "tears"]
+  @delet ["delet"]
   @feelsbad ["feelsbad", "feelsbadman"]
-  defp commands, do: @laugh ++ @cry ++ @feelsbad
+  @feelsgood ["feelsgood", "feelsgoodman"]
+  @hidoi ["hidoi"]
+  @laugh ["lel", "lol", "haha", "lul"]
+  @quote ["quote"]
+  @reject ["reject"]
+  @sugoi ["sugoi"]
+  @wakarimasen ["dunno", "wakarimasen"]
+  @wat ["wat", "nani", "whatthefuck", "nanithefuck"]
 
-  defp fetch_url("ptsd"), do: "https://i.imgur.com/xpvHDl8.jpg"
-  defp fetch_url(text) when text in @laugh, do: Taihou.API.get_link(@laugh_id)
-  defp fetch_url(text) when text in @wat, do: Taihou.API.get_link(@wat_id)
+  @amen ""
+  @angry_id "DfkhdZo"
+  @approve_id "ywUT6b1"
+  @celebrate_id "TcWTndc"
+  @cry_id "nPcmJe4"
+  @delet_id "aCjtxN6"
+  @despair_id ""
+  @disgust_id ""
+  @dostedt_id ""
+  @doubt_id ""
+  @doubt_id "EghYsIq"
+  @excited_id ""
+  @fallback_id "TJwWJ6Z"
+  @feelsbad_id "lCaH4Zn"
+  @feelsgood_id "L1rp3Zl"
+  @fight ""
+  @gg ""
+  @gtfo ""
+  @happening ""
+  @hidoi_id "UHcyXpI"
+  @laugh_id "jEdfaZb"
+  @mindblown_id ""
+  @nani_id ""
+  @no_id ""
+  @panic_id ""
+  @pity_id ""
+  @quote_id "xwqPMC6"
+  @reject_id "IkbwGtU"
+  @scared_id ""
+  @smug_id ""
+  @stupid_id ""
+  @sugoi_id "w6UFjuc"
+  @sweating_id ""
+  @thed ""
+  @toolate ""
+  @wakarimasen_id "WDtcrqs"
+  @wat_id "3M3FnHd"
+  @yamete_id ""
+  @yes_id ""
+
+  defp commands do
+    @angry ++
+      @approve ++
+      @celebrate ++
+      @cry ++
+      @delet ++
+      @feelsbad ++
+      @feelsgood ++ @hidoi ++ @laugh ++ @quote ++ @reject ++ @sugoi ++ @wakarimasen ++ @wat
+  end
+
+  defp fetch_url(text) when text in @angry, do: Taihou.API.get_link(@angry_id)
+  defp fetch_url(text) when text in @approve, do: Taihou.API.get_link(@approve_id)
+  defp fetch_url(text) when text in @celebrate, do: Taihou.API.get_link(@celebrate_id)
+  defp fetch_url(text) when text in @cry, do: Taihou.API.get_link(@cry_id)
+  defp fetch_url(text) when text in @delet, do: Taihou.API.get_link(@delet_id)
   defp fetch_url(text) when text in @feelsbad, do: Taihou.API.get_link(@feelsbad_id)
-  defp fetch_url(text), do: text
+  defp fetch_url(text) when text in @feelsgood, do: Taihou.API.get_link(@feelsgood_id)
+  defp fetch_url(text) when text in @hidoi, do: Taihou.API.get_link(@hidoi_id)
+  defp fetch_url(text) when text in @laugh, do: Taihou.API.get_link(@laugh_id)
+  defp fetch_url(text) when text in @quote, do: Taihou.API.get_link(@quote_id)
+  defp fetch_url(text) when text in @reject, do: Taihou.API.get_link(@reject_id)
+  defp fetch_url(text) when text in @sugoi, do: Taihou.API.get_link(@sugoi_id)
+  defp fetch_url(text) when text in @wakarimasen, do: Taihou.API.get_link(@wakarimasen_id)
+  defp fetch_url(text) when text in @wat, do: Taihou.API.get_link(@wat_id)
+  defp fetch_url(_text), do: Taihou.API.get_link(@fallback_id)
 end

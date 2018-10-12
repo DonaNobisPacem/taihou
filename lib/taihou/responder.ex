@@ -3,31 +3,14 @@ defmodule Taihou.ResponseController do
   @token Application.get_env(:taihou, :token)
 
   def respond(conn, %{"token" => token, "command" => "/react"} = params) when token == @token do
-    command =
+    response =
       params
       |> Map.get("text", "")
       |> String.trim()
       |> String.split()
       |> List.first()
       |> String.downcase()
-
-    response =
-      case command do
-        "commands" ->
-          commands()
-          |> Enum.sort()
-          |> Enum.join(", ")
-          |> construct_response(%{"response_type" => "ephemeral"})
-
-        "help" ->
-          construct_response(
-            "To use this weeb app, provide a keyword after `/react`. Use `/react commands` to get the list.",
-            %{"response_type" => "ephemeral"}
-          )
-
-        command ->
-          construct_response(command)
-      end
+      |> construct_response
 
     conn
     |> put_resp_content_type("application/json")
@@ -106,7 +89,8 @@ defmodule Taihou.ResponseController do
   @yes_id ""
 
   defp commands do
-    @angry ++
+    ["commands", "help"] ++
+      @angry ++
       @approve ++
       @celebrate ++
       @cry ++
@@ -115,7 +99,16 @@ defmodule Taihou.ResponseController do
       @feelsgood ++ @hidoi ++ @laugh ++ @quote ++ @reject ++ @sugoi ++ @wakarimasen ++ @wat
   end
 
-  defp fetch_url(text) when text in ["commands", "help"], do: text
+  defp fetch_url("commands"),
+    do:
+      commands()
+      |> Enum.sort()
+      |> Enum.join(", ")
+
+  defp fetch_url("help"),
+    do:
+      "To use this weeb app, provide a keyword after `/react`. Use `/react commands` to get the list."
+
   defp fetch_url(text) when text in @angry, do: Taihou.API.get_link(@angry_id)
   defp fetch_url(text) when text in @approve, do: Taihou.API.get_link(@approve_id)
   defp fetch_url(text) when text in @celebrate, do: Taihou.API.get_link(@celebrate_id)

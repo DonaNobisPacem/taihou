@@ -115,6 +115,7 @@ defmodule Taihou.ResponseController do
       @feelsgood ++ @hidoi ++ @laugh ++ @quote ++ @reject ++ @sugoi ++ @wakarimasen ++ @wat
   end
 
+  defp fetch_url(text) when text in ["commands", "help"], do: text
   defp fetch_url(text) when text in @angry, do: Taihou.API.get_link(@angry_id)
   defp fetch_url(text) when text in @approve, do: Taihou.API.get_link(@approve_id)
   defp fetch_url(text) when text in @celebrate, do: Taihou.API.get_link(@celebrate_id)

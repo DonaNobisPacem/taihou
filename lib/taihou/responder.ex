@@ -21,7 +21,17 @@ defmodule Taihou.ResponseController do
     send_resp(conn, 400, "unknown command")
   end
 
-  defp construct_response(response_text, opts \\ %{}) do
+  defp construct_response(response_text, opts \\ %{})
+
+  defp construct_response(response_text, _opts) when response_text in ["commands", "help"] do
+    Jason.encode!(%{
+      "response_type" => "ephemeral",
+      "text" => fetch_url(response_text),
+      "attachments" => %{}
+    })
+  end
+
+  defp construct_response(response_text, opts) do
     response_type = Map.get(opts, "response_type", "in_channel")
     response_url = fetch_url(response_text)
     attachments = Map.get(opts, "attachments", %{})
@@ -38,6 +48,7 @@ defmodule Taihou.ResponseController do
   @celebrate ["celebrate"]
   @cry ["cry", "tears"]
   @delet ["delet"]
+  @doubt ["doubt"]
   @feelsbad ["feelsbad", "feelsbadman"]
   @feelsgood ["feelsgood", "feelsgoodman"]
   @hidoi ["hidoi"]
@@ -57,7 +68,6 @@ defmodule Taihou.ResponseController do
   @despair_id ""
   @disgust_id ""
   @dostedt_id ""
-  @doubt_id ""
   @doubt_id "EghYsIq"
   @excited_id ""
   @fallback_id "TJwWJ6Z"
@@ -95,6 +105,7 @@ defmodule Taihou.ResponseController do
       @celebrate ++
       @cry ++
       @delet ++
+      @doubt ++
       @feelsbad ++
       @feelsgood ++ @hidoi ++ @laugh ++ @quote ++ @reject ++ @sugoi ++ @wakarimasen ++ @wat
   end
